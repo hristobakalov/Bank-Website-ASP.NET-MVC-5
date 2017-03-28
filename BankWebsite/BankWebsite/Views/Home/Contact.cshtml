@@ -1,0 +1,66 @@
+﻿@using reCAPTCHA.MVC
+
+<div class="container">
+    <div class="map">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>How to contact us</h2>
+                <div>KeepX Bank</div>
+                <p>
+                    1234 Random Road<br />
+                    56789 Fake City<br />
+                    WrongCountry
+                </p>
+                <div>+99 12 34 56 78 90</div>
+            </div>
+            <div class="col-sm-6">
+                <img src="~/images/map.png" class="contact-map" />
+            </div>
+        </div>
+    </div>
+
+
+    <section id="contact-page">
+        <div class="container">
+            <div class="center">
+                <h2>Or you can send us an email</h2>
+            </div>
+            <div class="row contact-wrap">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div>@ViewBag.FormMessage</div>
+                    <div id="sendmessage">Your message has been sent. Thank you!</div>
+                    <div id="errormessage"></div>
+
+
+                    @using (Html.BeginForm("ContactPost", "Home"))
+                    {
+
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                            <div class="validation"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control" name="message" id="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                            <div class="validation"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control" name="message" id="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                            <div class="validation"></div>
+                        </div>
+
+
+                        @Html.Recaptcha()
+                        @Html.ValidationMessage("ReCaptcha")
+
+                        <div class="text-center"><button type="submit" class="btn btn-primary btn-lg">Send Message</button></div>
+
+                    }
+                </div>
+            </div><!--/.row-->
+        </div><!--/.container-->
+    </section><!--/#contact-page-->
+</div>
+
+

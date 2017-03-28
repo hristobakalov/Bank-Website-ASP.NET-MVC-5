@@ -1,0 +1,35 @@
+﻿@using BankWebsite.Models;
+@{
+    ViewBag.Title = "Dashboard";
+    var currUser = System.Web.HttpContext.Current.Session["userCredentionals"] as User;
+
+}
+
+
+<div class="container" style="min-height:600px">
+    <h2>Dashboard</h2>
+
+    @if (currUser != null)
+    {
+        <div>
+            Hi @currUser.Firstname
+            @currUser.Lastname
+        </div>
+        <div>
+            welcome to your personal area.
+            Want to contact us? Click here.
+        </div>
+        <div class="balanceWidget">
+            <div class="balanceWidgetHeader">
+                <img src="~/images/money.png" class="logo" />
+                <h2>Current Balance</h2>
+            </div>
+            <div class="balanceWidgetBody">
+                <h2>@currUser.Balance $</h2>
+            </div>
+        </div>
+
+
+    }
+
+</div>
