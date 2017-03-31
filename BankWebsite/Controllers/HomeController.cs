@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BankWebsite.Models;
 using SoSimpleDb;
+using System.Diagnostics;
 
 namespace BankWebsite.Controllers
 {
@@ -15,8 +16,20 @@ namespace BankWebsite.Controllers
     {
         public ActionResult Index()
         {
+            System.Diagnostics.Debug.WriteLine(HttpContext.Request.UserHostAddress);
             ViewBag.Title = "Home Page";
             ViewBag.LoginSuccessful = false;
+            List<int> someList = new List<int>();
+            string slow = "";
+            Stopwatch currentWatch = new Stopwatch();
+            currentWatch.Start();
+            for (int i = 0; i < 1000000; i++)
+            {
+                slow += i;
+                someList.Add(i);
+            }
+            currentWatch.Stop();
+            System.Diagnostics.Debug.WriteLine(currentWatch.ElapsedMilliseconds);
             return View();
         }
         [HttpGet]
@@ -130,6 +143,7 @@ namespace BankWebsite.Controllers
                     SoSimpleDb<User>.Instance.Insert(newUser);
 
                     string message = String.Format("Please click the confirmation link: http://localhost:51669/Customer/UserActivation?id={0}&token={1}", newUser.Id, randToken);
+                    
                     sendEmail(newUser.Email, message);
                     return RedirectToAction("EmailSent");
                    // return View("EmailSent");

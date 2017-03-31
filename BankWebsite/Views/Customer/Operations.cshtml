@@ -1,0 +1,112 @@
+﻿@using BankWebsite.Models
+@{
+    var message = System.Web.HttpContext.Current.Session["OperationsMessage"];
+    var currUser = System.Web.HttpContext.Current.Session["userCredentionals"] as User;
+
+    ViewBag.Title = "Operations";
+}
+<div class="container" style="margin-top: 50px;margin-bottom: 40px">
+    <div class="text-center" id="messageAboutBalance">@message</div>
+    <h2>Operations</h2>
+    <div>Current balance: <span id="currentBalance">@currUser.Balance</span></div>
+    <h3>Deposit</h3>
+    <div>
+        @using (Html.BeginForm("Operations", "Customer"))
+        {
+            <input id="amount" style="margin-bottom: 15px;" type="text" name="amount" size="30" />
+            <input class="btn btn-primary" type="submit" name="commit" value="Deposit Money" />
+        }
+    </div>
+
+    <h3>Withdrawal</h3>
+    <div>
+        @using (Html.BeginForm("WithdrawalMoneyPost", "Customer", FormMethod.Post, new { id = "myForm" }))
+        {
+            <input id="amountWithdrawal" style="margin-bottom: 15px;" type="text" name="amountWithdrawal" size="30" />
+            <input class="btn btn-primary" id="withdrawSubmitBtn" type="submit" name="commit" value="Withdraw"
+                   data-toggle="modal" data-target="#myModal" />
+        }
+    </div>
+
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cash Withdrawal Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>Do you confirm your <span id="putWithdrawlValue"></span> cash withdrawal enquiry?</div>
+                <div> Current balance <span>@currUser.Balance</span></div>
+                <div> Balance after withdrawal <span id="BalanceAfterWithdraw"></span></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" id="yesBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let toSubmitForm = false;
+    $("#withdrawSubmitBtn").click(function (e) {
+        if (!toSubmitForm) {
+            e.preventDefault();
+            let currBalance = $("#currentBalance").text();
+            let withdrawalValue = $("#amountWithdrawal").val();
+            $('#myModal').show();
+            $("#putWithdrawlValue").text(withdrawalValue);
+
+            let result = parseFloat(currBalance) - parseFloat(withdrawalValue);
+
+            $("#BalanceAfterWithdraw").text(result);
+            toSubmitForm = true;
+        }
+    });
+
+    $("#yesBtn").click(function (e) {
+        if (toSubmitForm) {
+            $('#withdrawSubmitBtn').removeAttr('data-toggle');
+            $('#withdrawSubmitBtn').removeAttr('data-target');
+            $('#myForm').submit();
+            toSubmitFrom = false;
+        }
+
+        var serviceURL = '/Customer/WithdrawalMoney?param=' + $("#amountWithdrawal").val();
+
+        //$.ajax({
+        //    type: "GET",
+        //    url: serviceURL,
+        //    //data: { param: $("#amountWithdrawal").val() },
+        //    //contentType: "application/json; charset=utf-8",
+        //    // dataType: "json",
+        //    success: successFunc,
+        //    error: errorFunc
+        //});
+
+        //function successFunc(data, status) {
+
+        //    hideModal();
+        //    $("#messageAboutBalance").text(data);
+        //}
+
+        //function errorFunc() {
+        //    alert('error');
+        //}
+
+    });
+
+    function hideModal() {
+        $("#myModal").removeClass("in");
+        $(".modal-backdrop").remove();
+        $("#myModal").hide();
+    }
+</script>
+
+

@@ -23,6 +23,16 @@
     @Styles.Render("~/css/style.css")
     @Styles.Render("~/css/responsive.css")
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery.prettyPhoto.js")
+    @Scripts.Render("~/Scripts/jquery.isotope.min.js")
+    @Scripts.Render("~/Scripts/wow.min.js")
+    @Scripts.Render("~/Scripts/main.js")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/Scripts/combodate.js")
+    @Scripts.Render("~/Scripts/moment.js")
+
 </head>
 <body class="homepage">
     <header id="header">
@@ -52,7 +62,10 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li>@Html.ActionLink("Dashboard", "Dashboard", "Customer", new { area = "" }, null)</li>
+                                    <li>@Html.ActionLink("Operations", "Operations", "Customer", new { area = "" }, null)</li>
                                     <li>@Html.ActionLink("Sign Out", "SignOut", "Home", new { area = "" }, null)</li>
+
                                 </ul>
                             </li>
                             @*<li><div class="userNames">@ViewBag.FirstName @ViewBag.LastName</div></li>*@
@@ -147,32 +160,24 @@
 
     </footer><!--/#footer-->
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/jquery.prettyPhoto.js")
-    @Scripts.Render("~/Scripts/jquery.isotope.min.js")
-    @Scripts.Render("~/Scripts/wow.min.js")
-    @Scripts.Render("~/Scripts/main.js")
-    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
-    @Scripts.Render("~/Scripts/combodate.js")
-    @Scripts.Render("~/Scripts/moment.js")
+
     @if (IsSectionDefined("scripts"))
     {
         @RenderSection("scripts")
     }
 
     <script>
-        $(document).ready(function () {
-            $(function () {
-                // Setup drop down menu
-                $('.dropdown-toggle').dropdown();
+        //$(document).ready(function () {
+        //    $(function () {
+        //        // Setup drop down menu
+        //        $('.dropdown-toggle').dropdown();
 
-                // Fix input element click problem
-                $('.dropdown input, .dropdown label').click(function (e) {
-                    e.stopPropagation();
-                });
-            });
-        });
+        //        // Fix input element click problem
+        //        $('.dropdown input, .dropdown label').click(function (e) {
+        //            e.stopPropagation();
+        //        });
+        //    });
+        //});
 
     </script>
 
